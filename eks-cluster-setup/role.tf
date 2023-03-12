@@ -78,7 +78,7 @@ resource "aws_eks_cluster" "mywebapp-cluster" {
    }
 
   depends_on = [
-    "aws_iam_role_policy_attachment.example-AmazonEKSClusterPolicy"
+    aws_iam_role_policy_attachment.eks-cluster-role-AmazonEKSClusterPolicy
   ]
 }
 
@@ -105,9 +105,9 @@ resource "aws_eks_node_group" "mywebapp-node-group" {
     }
   
   depends_on = [
-    aws_iam_role_policy_attachment.example-AmazonEKSWorkerNodePolicy,
-    aws_iam_role_policy_attachment.example-AmazonEKS_CNI_Policy,
-    aws_iam_role_policy_attachment.example-AmazonEC2ContainerRegistryReadOnly,
+    aws_iam_role_policy_attachment.eks-node-group-role-AmazonEKSWorkerNodePolicy,
+    aws_iam_role_policy_attachment.eks-node-group-role-AmazonEKS_CNI_Policy,
+    aws_iam_role_policy_attachment.eks-node-group-role-AmazonEC2ContainerRegistryReadOnly,
   ]
 }
 
@@ -126,7 +126,7 @@ resource "aws_eks_cluster" "socksapp-cluster" {
    }
 
   depends_on = [
-    "aws_iam_role_policy_attachment.example-AmazonEKSClusterPolicy"
+    aws_iam_role_policy_attachment.eks-cluster-role-AmazonEKSClusterPolicy
   ]
 }
 
@@ -153,8 +153,8 @@ resource "aws_eks_node_group" "socksapp-node-group" {
     }
   
   depends_on = [
-    aws_iam_role_policy_attachment.example-AmazonEKSWorkerNodePolicy,
-    aws_iam_role_policy_attachment.example-AmazonEKS_CNI_Policy,
-    aws_iam_role_policy_attachment.example-AmazonEC2ContainerRegistryReadOnly,
+    aws_iam_role_policy_attachment.eks-node-group-role-AmazonEKSWorkerNodePolicy,
+    aws_iam_role_policy_attachment.eks-node-group-role-AmazonEKS_CNI_Policy,
+    aws_iam_role_policy_attachment.eks-node-group-role-AmazonEC2ContainerRegistryReadOnly,
   ]
 }
