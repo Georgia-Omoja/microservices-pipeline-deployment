@@ -21,18 +21,3 @@ variable "private_subnet_1B_cidr_block" {
 variable "public_subnet_1B_cidr_block" {
     description = "CIDR for the public subnet 1B"
 }
-
-variable "private_subnet_1C_cidr_block" {
-    description = "CIDR for the private subnet 1C"
-}
-
-variable "public_subnet_1C_cidr_block" {
-    description = "CIDR for the public subnet 1C"
-}
-variable "private_subnet_1D_cidr_block" {
-    description = "CIDR for the private subnet 1D"
-}
-
-variable "public_subnet_1D_cidr_block" {
-    description = "CIDR for the public subnet 1D"
-}

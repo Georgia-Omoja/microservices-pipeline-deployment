@@ -1,4 +1,4 @@
 provider "aws" {
-    profile = "georgia"
+    provider = "altschool"
     region = var.region
 }

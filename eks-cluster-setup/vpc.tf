@@ -4,8 +4,7 @@ resource "aws_vpc" "vpc" {
     
     tags = {
         Name = "vpc-001"
-        "kubernetes.io/cluster/mywebapp-eks-cluster" = "shared"
-        "kubernetes.io/cluster/socksapp-eks-cluster" = "shared"
+        "kubernetes.io/cluster/myeks-cluster" = "shared"
     }
 }
 
@@ -17,9 +16,7 @@ resource "aws_subnet" "private_subnet_1a" {
 
     tags = {
         Name = "PRIVATE SUBNET 1A"
-        "kubernetes.io/cluster/mywebapp-eks-cluster" = "shared"
-        "kubernetes.io/role/internal-elb"         = "1"
-
+        "kubernetes.io/cluster/myeks-cluster" = "shared"
     }
 
 }
@@ -32,8 +29,7 @@ resource "aws_subnet" "public_subnet_1a" {
 
     tags = {
         Name = "PUBLIC SUBNET 1A"
-        "kubernetes.io/cluster/mywebapp-eks-cluster" = "shared"
-        "kubernetes.io/role/elb"                  = 1
+        "kubernetes.io/cluster/myeks-cluster" = "shared"
     }
 
 }
@@ -46,8 +42,7 @@ resource "aws_subnet" "private_subnet_1b" {
 
     tags = {
         Name = "PRIVATE SUBNET 1A"
-        "kubernetes.io/cluster/mywebapp-eks-cluster" = "shared"
-        "kubernetes.io/role/internal-elb"         = "1"
+        "kubernetes.io/cluster/myeks-cluster" = "shared"
 
     }
 
@@ -61,66 +56,7 @@ resource "aws_subnet" "public_subnet_1b" {
 
     tags = {
         Name = "PUBLIC SUBNET 1B"
-        "kubernetes.io/cluster/mywebapp-eks-cluster" = "shared"
-        "kubernetes.io/role/elb"                  = 1
-    }
-
-}
-
-# PRIVATE SUBNET 1C
-resource "aws_subnet" "private_subnet_1c" {
-    vpc_id = aws_vpc.vpc.id
-    cidr_block = var.private_subnet_1C_cidr_block
-    availability_zone = us-east-1c
-
-    tags = {
-        Name = "PRIVATE SUBNET 1C"
-        "kubernetes.io/cluster/socksapp-eks-cluster" = "shared"
-        "kubernetes.io/role/internal-elb"         = "1"
-
-    }
-
-}
-
-# PUBLIC SUBNET 1C
-resource "aws_subnet" "public_subnet_1c" {
-    vpc_id = aws_vpc.vpc.id
-    cidr_block = var.public_subnet_1C_cidr_block
-    availability_zone = us-east-1b
-
-    tags = {
-        Name = "PUBLIC SUBNET 1C"
-        "kubernetes.io/cluster/socksapp-eks-cluster" = "shared"
-        "kubernetes.io/role/elb"                  = 1
-    }
-
-}
-
-# PRIVATE SUBNET 1D
-resource "aws_subnet" "private_subnet_1d" {
-    vpc_id = aws_vpc.vpc.id
-    cidr_block = var.private_subnet_1D_cidr_block
-    availability_zone = us-east-1d
-
-    tags = {
-        Name = "PRIVATE SUBNET 1D"
-        "kubernetes.io/cluster/socksapp-eks-cluster" = "shared"
-        "kubernetes.io/role/internal-elb"         = "1"
-
-    }
-
-}
-
-# PUBLIC SUBNET 1D
-resource "aws_subnet" "public_subnet_1d" {
-    vpc_id = aws_vpc.vpc.id
-    cidr_block = var.public_subnet_1D_cidr_block
-    availability_zone = us-east-1d
-
-    tags = {
-        Name = "PUBLIC SUBNET 1D"
-        "kubernetes.io/cluster/socksapp-eks-cluster" = "shared"
-        "kubernetes.io/role/elb"                  = 1
+        "kubernetes.io/cluster/myeks-cluster" = "shared"
     }
 
 }
@@ -181,14 +117,6 @@ resource "aws_route_table_association" "private-rtb-1b" {
     subnet_id = aws_subnet.private_subnet_1b.id
     route_table_id = aws_route_table.private-rtb.id     
 }
-resource "aws_route_table_association" "private-rtb-1c" {
-    subnet_id = aws_subnet.private_subnet_1c.id
-    route_table_id = aws_route_table.private-rtb.id     
-}
-resource "aws_route_table_association" "private-rtb-1d" {
-    subnet_id = aws_subnet.private_subnet_1d.id
-    route_table_id = aws_route_table.private-rtb.id     
-}
 
 # ROUTE TABLE FOR PUBLIC SUBNETS
 resource "aws_route_table" "public-rtb" {
@@ -213,11 +141,23 @@ resource "aws_route_table_association" "public-rtb-1b" {
     subnet_id = aws_subnet.public_subnet_1b.id
     route_table_id = aws_route_table.public-rtb.id     
 }
-resource "aws_route_table_association" "public-rtb-1c" {
-    subnet_id = aws_subnet.public_subnet_1c.id
-    route_table_id = aws_route_table.public-rtb.id     
-}
-resource "aws_route_table_association" "public-rtb-1d" {
-    subnet_id = aws_subnet.public_subnet_1d.id
-    route_table_id = aws_route_table.public-rtb.id     
+
+resource "aws_security_group" "eks-security-group" {
+  name = "eks-security-group"
+  description = "Security group for EKS cluster"
+  vpc_id = aws_vpc.vpc.id
+
+  ingress {
+    from_port = 0
+    to_port = 65535
+    protocol = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  egress {
+    from_port = 0
+    to_port = 0
+    protocol = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
 }
