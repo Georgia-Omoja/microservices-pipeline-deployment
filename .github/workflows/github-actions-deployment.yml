@@ -1,4 +1,4 @@
-name: Deploy mywebapp to EKS Cluster
+name: Deploy mywebapp and socksapp to EKS Cluster
 on:
   push:
     branches: [ "main" ]
