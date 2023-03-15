@@ -35,7 +35,7 @@ resource "aws_eks_node_group" "myeks-node-group" {
     max_size     = 7
     min_size     = 1
   }
-  instance_types = ["t3.meidum"]
+  instance_types = ["t3.medium"]
 
   lifecycle {
     prevent_destroy = false

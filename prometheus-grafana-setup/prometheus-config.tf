@@ -233,29 +233,29 @@ resource "helm_release" "grafana" {
   namespace  = kubernetes_namespace.grafana.metadata[0].name
   repository = "https://grafana.github.io/helm-charts"
   values = [
-    {
-      "adminUser"     = "admin"
-      "adminPassword" = "password"
-      "ingress.enabled" = true
+    jsonencode({
+      "adminUser"           = "admin"
+      "adminPassword"       = "password"
+      "ingress.enabled"     = true
       "ingress.annotations.kubernetes.io/ingress.class" = "nginx"
-      "ingress.hosts[0].name" = "grafana.example.com"
+      "ingress.hosts[0].name"     = "grafana.example.com"
       "ingress.hosts[0].paths[0]" = "/"
       "persistence.enabled" = false
-      "plugins." = {
+      "plugins" = {
         "grafana-kubernetes-app" = {
           "enabled" = true
           "version" = "3.2.1"
         }
       }
-      "datasources." = {
-        "datasources[0].name" = "Prometheus"
-        "datasources[0].type" = "prometheus"
-        "datasources[0].url" = "http://prometheus-server.prometheus.svc.cluster.local:9090"
-        "datasources[0].access" = "proxy"
-        "datasources[0].basicAuth" = false
-        "datasources[0].isDefault" = true
+      "datasources" = {
+        "datasources[0].name"     = "Prometheus"
+        "datasources[0].type"     = "prometheus"
+        "datasources[0].url"      = "http://prometheus-server.prometheus.svc.cluster.local:9090"
+        "datasources[0].access"   = "proxy"
+        "datasources[0].basicAuth"= false
+        "datasources[0].isDefault"= true
       }
-    }
+    })
   ]
 }
 

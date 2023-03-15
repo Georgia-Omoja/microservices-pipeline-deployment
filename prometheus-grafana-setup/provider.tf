@@ -1,10 +1,10 @@
 provider "kubernetes" {
-  config_context_cluster = "myeks-cluster"
+  config_path    = "~/.kube/config"
 }
 
 provider "helm" {
   kubernetes {
-    config_context_cluster = "myeks-cluster"
+    config_path    = "~/.kube/config"
   }
 }
 
