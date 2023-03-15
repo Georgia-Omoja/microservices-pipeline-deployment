@@ -141,23 +141,3 @@ resource "aws_route_table_association" "public-rtb-1b" {
     subnet_id = aws_subnet.public_subnet_1b.id
     route_table_id = aws_route_table.public-rtb.id     
 }
-
-resource "aws_security_group" "eks-security-group" {
-  name = "eks-security-group"
-  description = "Security group for EKS cluster"
-  vpc_id = aws_vpc.vpc.id
-
-  ingress {
-    from_port = 0
-    to_port = 65535
-    protocol = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  egress {
-    from_port = 0
-    to_port = 0
-    protocol = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-}

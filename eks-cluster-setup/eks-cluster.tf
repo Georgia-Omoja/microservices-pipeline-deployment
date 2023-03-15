@@ -13,7 +13,6 @@ resource "aws_eks_cluster" "myeks-cluster" {
         aws_subnet.public_subnet_1b.id
     ]
    }
-  security_group_ids = [aws_security_group.eks-security-group.id]
 
   depends_on = [
     aws_iam_role_policy_attachment.eks-AmazonEKSClusterPolicy,
