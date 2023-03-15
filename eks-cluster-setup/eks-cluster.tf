@@ -13,6 +13,7 @@ resource "aws_eks_cluster" "myeks-cluster" {
         aws_subnet.public_subnet_1b.id
     ]
    }
+  security_group_ids = [aws_security_group.eks-security-group.id]
 
   depends_on = [
     aws_iam_role_policy_attachment.eks-AmazonEKSClusterPolicy,
@@ -43,8 +44,8 @@ resource "aws_eks_node_group" "myeks-node-group" {
     }
   
   depends_on = [
-    aws_iam_role_policy_attachment.eks-node-group-role-eks-AmazonEKSWorkerNodePolicy,
-    aws_iam_role_policy_attachment.eks-node-group-role-eks-AmazonEKS_CNI_Policy,
-    aws_iam_role_policy_attachment.eks-node-group-role-eks-AmazonEC2ContainerRegistryReadOnly,
+    aws_iam_role_policy_attachment.eks-AmazonEKSWorkerNodePolicy,
+    aws_iam_role_policy_attachment.eks-AmazonEKS_CNI_Policy,
+    aws_iam_role_policy_attachment.eks-AmazonEC2ContainerRegistryReadOnly
   ]
 }
